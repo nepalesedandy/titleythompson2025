@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Emma and David wedding 2.0</title>
+<style>
+@font-face {
+  font-family: 'my-everything';
+  src: url('./my-everything/My\ Everything\ TRIAL.ttf') format('woff');
+}
+@font-face {
+  font-family: 'legrand';
+  src: url('') format('truetype');
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'legrand', 'regluar' ;
+  background-color: #FFFAF1;
+  padding-top: 60px; /* Adjust this value based on your header's height */
+}
+.header-container {
+    display: flex;
+    align-items: center; /* Ensure items are vertically centered */
+    justify-content: space-between; /* Space between image and menu */
+    width: 100%;
+    background-color: #FFFAF1;
+    padding: 5px !important; /* Adjust as necessary */
+    box-sizing: border-box;
+    border-bottom: 1px solid #023020;
+}
+.header-image-container {
+    /* Removed absolute positioning to keep in document flow */
+    display: flex;
+    justify-content: flex-start; /* Align image to the left */
+    align-items: center; /* Center image vertically */
+    padding: 0; /* Adjust as necessary */
+}
+.header-image-container img {
+    max-width: 150px; /* or 200px for larger screens, adjust as necessary */
+    height: auto;
+}
+.header-container:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+/* Adjust padding on the body to prevent overlap */
+body {
+    padding-top: 30px !important; /* Adjust based on the header's height */
+}
+
+/* Ensure .header-text-content and .hamburger-menu are correctly aligned */
+.header-text-content {
+    display: flex;
+    justify-content: flex-end; /* Align menu items to the right */
+    align-items: center; /* Center items vertically */
+    width: 100%;
+}
+.hamburger-menu {
+    display: none; /* Initially hidden, shown on smaller screens */
+} 
+@media (max-width: 768px) {
+    .hamburger-menu {
+        display: block; /* Show on smaller screens */
+    }
+    .menu-items {
+        display: none; /* Hide menu items, show hamburger menu */
+}
+    }
+/* For larger screens, adjust the size of the header image */
+@media (min-width: 1024px) {
+    .header-image-container img {
+        max-width: 200px; /* Larger image on larger screens */
+    }
+
+    /* Adjust padding-top of body based on the new header height */
+    body {
+        padding-top: 210px; /* Adjust based on actual header height */
+    }
+}
+.hamburger-menu {
+    display: none; /* Hidden by default */
+    font-size: 40px; /* Icon size */
+    cursor: pointer; /* Indicates it's clickable */
+}
+@media (max-width: 768px) {
+    .menu-items {
+        display: none; /* Hide menu items on smaller screens */
+    }
+    .hamburger-menu {
+        display: block; /* Show hamburger icon on smaller screens */
+    }
+}
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+  background-color: #FFFAF1;;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+  font-family: 'FontAwesome', woff;
+  font-size: 25px;
+  text-decoration: none; /* Removes underline */
+  cursor: default; /* Changes cursor to default instead of pointer */
+  color: #567033; /* Change this to match your regular text color */
+  pointer-events: none; /* Prevents clicking on the link */
+}
+
+#myModal .modal-content a {
+    color: #333; /* Dark gray color */
+    text-decoration: none; /* Removes underline */
+    cursor: pointer; /* Ensures cursor changes to pointer to indicate link */
+}
+
+#myModal .modal-content a:hover, 
+#myModal .modal-content a:focus {
+    color: #444; /* Slightly darker color on hover/focus for feedback */
+    text-decoration: underline; /* Optional: Adds underline on hover/focus for visual feedback */
+}
+
+/* The Close Button */
+.close {
+  color: #567033;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Targeting the container of the menu */
+.top-menu,
+.menu-items {
+    border: none !important;
+}
+
+/* Targeting the list items and links directly */
+.top-menu li,
+.top-menu li a,
+.top-menu-link {
+    border: none !important;
+    border-bottom: none !important; /* Specifically removing bottom borders if they were set */
+}
+
+/* Ensuring no underlines or borders from link hover states */
+.top-menu li a:hover,
+.top-menu-link:hover {
+    border: none !important;
+    border-bottom: none !important;
+    text-decoration: none; /* Removing underline on hover to clean up appearance */
+}
+body {
+  background-color: ; /* Your site's background color */
+}
+.top-text .text-content { 
+  font-family: 'FontAwesome', woff;
+}
+.top-text{
+  background-color: #FFFAF1;
+  overflow: hidden;
+}
+.text-content, .menu-items {
+    text-align: center;
+}
+.top-text .text-content {
+  padding: 0px;
+  font-size: 30px;
+  color: #567033;
+}
+body {
+  position: relative; /* This makes the body the reference point for absolute positioning */
+}
+.resize-image {
+  width: 150px;  /* Adjust the width as desired */
+  height: auto;  /* Keeps the aspect ratio intact */
+}
+top-left-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.top-menu-link {
+color: #567033;
+  background-color: #FFFAF1;
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+/* Reset some default browser styles */
+ul, li, a {
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+}
+
+/* Remove list styles */
+ul {
+    list-style: none;
+}
+
+/* Make list items and links into block-level elements */
+ul.top-menu li {
+    display: inline;
+    margin-right: 20px;
+}
+/* Style the links */
+ul.top-menu li {
+    text-decoration: none;
+    color: #023020;
+    padding: 10px;
+}
+.top-menu li {
+  color: #567033;
+  text-align: right;
+  text-orientation: horizontal;
+  padding: 20px 30px;
+  text-decoration: none;
+  font-size: 25px;
+  display: inline-block;
+}
+
+ul.top-menu, ul.top-menu li, ul.top-menu li a, ul.top-menu-link{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+}
+ul.top-menu-link{
+    color: #567033;
+    background-color: #FFFAF1; 
+    outline: none;
+}
+.top-menu li a:hover {
+  background-color: #FFFAF1;
+  color: black;
+}
+.top-menu-link:hover {
+  background-color: #567033;
+  color: green;
+}
+.top-menu {
+  background-color: #FFFAF1;
+}
+.content {
+  margin-top: 20px;
+  padding: 20px;
+}
+.countdown-content {
+color: #567033;
+  text-align: center;
+  font-size: 25px;
+  color: #567033;
+  padding: 15px;
+  background-color: #FFFAF1;
+  overflow: hidden;
+  text-align: center;
+  flex-grow: 1;
+  flex-basis: auto;
+  }
+  @media (max-width: 768px) {
+  .countdown-content {
+    font-size: 18px; /* Smaller font size for smaller screens */
+  }
+}
+  .img {
+  background-color: #FFFAF1;
+  -ms-flex-item-align: center;
+  orientation: horizontal;
+  padding: 20px 30px;
+  }
+.home-text {
+font-size: 25px;
+  color: #567033;
+  text-align: center;
+  }
+  .home-text1 {
+  font-size: 25px; /* Default font size for larger screens */
+  color: #567033;
+  text-align: center;
+}
+
+/* Media query for tablets and small screens */
+@media (max-width: 768px) {
+  .home-text1 {
+    font-size: 20px; /* Smaller font size for smaller screens */
+  }
+}
+
+/* Media query for very small screens, like small smartphones */
+@media (max-width: 480px) {
+  .home-text1 {
+    font-size: 16px; /* Even smaller font size for very small screens */
+  }
+}
+  .image-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end; /* Start with aligning items to the bottom */
+    width: 100%;
+    height: auto;
+    min-height: 18pc; /* Adjust this value as needed */
+  }
+  .image {
+    flex: 1;
+    padding: 3px;
+    height: auto;
+    display: flex;
+    align-self: center;
+    max-width: 300px;
+}
+.image img {
+    width: 100%;
+    height: 15pc;
+    object-fit: cover; /* covers the area of the container without losing aspect ratio */
+}
+
+@media (min-width: 768px) { /* targets screens wider than 768 pixels */
+  .image img {
+      min-height: 500px; /* increases the height of the images on larger screens */
+  }
+}
+.image-container2 {
+    display: flex;
+    flex-wrap: wrap; /* This allows items to wrap to the next line */
+    justify-content: space-between; /* Keeps space distribution between images */
+    align-items: flex-start; /* Aligns items to the start of the container */
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    min-height: 18pc; /* Adjust this value as needed */
+    border-top: 1px solid #023020; /* Add a solid line under the header */
+    padding-top: 3px; /* Adds some space between the line and the images */
+    padding-left: 0px;
+    padding-right: 0px;
+    box-sizing: border-box;
+    margin: 0 auto;
+  }
+.image2 {
+    flex: 1 1 calc(16.66% - 4px); /* Flex-grow, flex-shrink, and base width */
+    margin: 2px; /* Optional: adds some space around images */
+    max-width: 300px; /* Adjust based on your requirements */
+    height: auto;
+    display: flex;
+    justify-content: center; /* Centers images within the div */
+}
+.image2 img {
+    width: 100%; /* Ensures image width fills the container */
+    height: auto; /* Maintains aspect ratio */
+    object-fit: cover; /* Ensures the images cover the container */
+}
+@media (max-width: 768px) { /* Adjust this breakpoint as needed */
+  .image2 {
+    flex-basis: calc(33.33% - 6px); /* Adjusts the base width for smaller screens */
+  }
+}
+/* Offset every other image */
+.image:nth-child(odd) {
+    align-self: flex-end; /* Odd images will align to the bottom */
+}
+
+.image:nth-child(even) {
+    align-self: flex-start; /* Even images will align to the top */
+}
+/* Offset every other image */
+.image2:nth-child(odd) {
+    align-self: flex-end; /* Odd images will align to the bottom */
+}
+
+.image2:nth-child(even) {
+    align-self: flex-start; /* Even images will align to the top */
+}
+/* Additional CSS to ensure menu-items are hidden when modal is displayed */
+.modal-open .menu-items {
+    display: none !important;
+}
+/* Modal Link Styling */
+#myModal .modal-content a {
+    color: #567033; /* Matches the primary text color used elsewhere */
+    text-decoration: underline; /* Removes underline */
+    cursor: pointer; /* Retains the pointer to indicate clickability */
+}
+
+#myModal .modal-content a:hover, 
+#myModal .modal-content a:focus {
+    color: #6c757d; /* Darker shade for hover/focus states */
+    text-decoration: underline; /* Optionally add underline on hover/focus for clarity */
+}
+.image-container3 {
+    display: flex;
+    flex-wrap: wrap; /* This allows items to wrap to the next line */
+    justify-content: space-between; /* Keeps space distribution between images */
+    align-items: flex-start; /* Aligns items to the start of the container */
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    min-height: 18pc; /* Adjust this value as needed */
+    border-top: 1px solid #023020; /* Add a solid line under the header */
+    padding-top: 3px; /* Adds some space between the line and the images */
+    padding-left: 0px;
+    padding-right: 0px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    object-fit: cover; /* Adjust as needed to cover the area of the container */
+  }
+  .image-container4 {
+    display: flex;
+    flex-wrap: wrap; /* This allows items to wrap to the next line */
+    justify-content: space-between; /* Keeps space distribution between images */
+    align-items: flex-end; /* Aligns items to the start of the container */
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    min-height: 18pc; /* Adjust this value as needed */
+    padding-top: 3px; /* Adds some space between the line and the images */
+    padding-left: 0px;
+    padding-right: 0px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    object-fit: cover; /* Adjust as needed to cover the area of the container */
+  }
+  /* Existing styles for .image-container3 and .image-container4 */
+.image-container3, .image-container4 {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap */
+    justify-content: space-between; /* Distribute space between items */
+    align-items: flex-start; /* Align items at the start */
+    width: 100%;
+    padding: 3px; /* Adjust padding as needed */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.image3, .image4 {
+    flex: 1 1 auto; /* Allow flexible box grow, shrink, and basis */
+    margin: 2px; /* Space between images */
+    max-width: 300px; /* Maximum width of images */
+}
+
+.image3 img, .image4 img {
+    width: 100%; /* Make image width responsive */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Cover the area of the container without losing its aspect ratio */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .image-container3 .image3, .image-container4 .image4 {
+        flex-basis: 100%; /* Full width on smaller screens */
+        max-width: 100%; /* Ensure max width is not limiting */
+        object-fit: contain;
+    }
+}
+/* Directly target images within those containers to adjust their size */
+.image-container3 .image3 img, .image-container4 .image4 img {
+        /* You might want to adjust their width to be less than 100% if you want them to shrink more noticeably */
+        flex-basis: 100%; /* Adjust the basis to 100% to ensure images take the full width of the container */
+        max-width: 100%;
+    }
+.event-info-container {
+    display: flex;
+    align-items: center; /* Adjusts vertical alignment */
+    justify-content: space-between; /* Manages spacing between the two containers */
+    flex-wrap: wrap;
+}
+
+.countdown-content {
+    flex: 1; /* Gives equal width, adjust as needed */
+    padding: 15px; /* Optional padding */
+}
+
+/* Additional styling for responsiveness */
+@media (max-width: 768px) {
+    .event-info-container {
+        flex-direction: column; /* Stacks the containers vertically on smaller screens */
+    }
+}
+.boxes-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 20px 0; /* Adjust margin as needed for spacing around the box container */
+}
+
+.info-box {
+  width: 15vw; /* Use viewport width for size */
+  height: 15vw; /* Use viewport width for size so width and height stay equal */
+  max-width: 15pc; /* Maximum size */
+  max-height: 15pc; /* Maximum size */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: 'legrand', sans-serif;
+  font-size: calc(1vw + 1em); /* Responsive font size */
+  color: #023020;
+  margin: 0 10px;
+  background-color: #AED6F1;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .info-box {
+    width: 30vw; /* Increase size for smaller screens if needed */
+    height: 30vw; /* Keep the height equal to the width */
+    font-size: calc(1.5vw + 1em); /* Slightly larger font size for small screens */
+  }
+}
+
+
+
+</style></head>
+<body>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+      <div class="header-container">
+        <div class="header-image-container">
+            <img src="./assests/Images/logo/ed-high-resolution-logo.png"  
+            alt="a figure of a couple in a wedding dress and suit, with the letters E and D beneath, below this the thrase Wedding 2025 is shown"
+             id="top-left-image" class="color-overlay">
+        </div>
+        <div class="header-text-content">
+          <div class="hamburger-menu">&#9776;</div> 
+            <div class="top-menu">
+              <ul>
+                <div class="menu-items">
+                <li><a href="#" class="top-menu-link">The Day</a></li>
+                  <li><a href="#" class="top-menu-link">Getting There</a></li>
+                  <li><a href="#" class="top-menu-link">Accomodation</a></li>
+                  <li><a href="#" class="top-menu-link">In The Area</a></li>
+                  <li><a href="#" class="top-menu-link">RSVP</a></li>
+                  </div>
+                  </ul>
+              </div>
+        </div>
+    </div>
+    </div>
+  </div>
+  <div>
+  </div>
+  <script>
+    $(document).ready(function(){
+    $(".hamburger-menu").click(function(){
+        // Open the modal
+        $("#myModal").css("display", "block");
+        $("body").addClass("modal-open"); // Add class to body
+    });
+
+    $(".close").click(function(){
+        $("#myModal").css("display", "none");
+        $("body").removeClass("modal-open"); // Remove class from body
+    });
+
+   // If the user clicks anywhere outside of the modal content, close it
+   window.onclick = function(event) {
+        if (event.target == document.getElementById('myModal')) {
+            $("#myModal").css("display", "none");
+        }
+    };
+});
+    </script>
+    <!-- The Modal -->
+<div id="myModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <ul>
+      <li><a href="#">The Day</a></li>
+      <li><a href="#">Getting There</a></li>
+      <li><a href="#">Accommodation</a></li>
+      <li><a href="#">Contacts</a></li>
+    </ul>
+  </div>
+</div>  
+  <div class="image-container">
+    <div class="image">
+      <img src="./assests/Images/trees/redwood_trees-wallpaper-2560x720-EDIT.jpg" alt="Redwood forest with sunlight filtering through"></div>
+    <div class="image">
+      <img src="./assests/Images/trees/redwood_trees-wallpaper-2560x720-EDIT-2.jpg" alt="Image 2"></div>
+    <div class="image">
+      <img src="./assests/Images/trees/redwood_trees-wallpaper-2560x720-EDIT-3.jpg" alt="Image 3"></div>
+    <div class="image">
+      <img src="./assests/Images/trees/redwood_trees-wallpaper-2560x720-EDIT-4.jpg" alt="Image 4"></div>
+    <div class="image">
+      <img src="./assests/Images/trees/redwood_trees-wallpaper-2560x720-EDIT-5.jpg" alt="Image 5"></div>
+    <div class="image">
+      <img src="./assests/Images/trees/redwood_trees-wallpaper-2560x720-EDIT-6.jpg" alt="Image 6"></div>
+  </div>
+  <div class="boxes-container">
+    <div class="info-box" style="background-color: #fcefd7;"><p class="home-text1" id="countdown-intro">Join us to celebrate Emma & David</p></div>
+    <div class="info-box" style="background-color: #fcefd7;"><p class="home-text1" id="wedding-date">19 July 2025</p></div>
+    <div class="info-box" style="background-color: #fcefd7;"><p class="home-text1" id="countdown">509 days 4 hours 37 minutes</p></div>
+  </div>  
+              </div>
+              </div>
+              </div>
+              </div>
+        </div>
+<script>
+   function update_countdown() {
+  var d = new Date();
+  var e = new Date("July 19, 2025 14:00 GMT");
+	//var e = new Date("July 19, 2025 18:07 GMT"); // TEST DATE AND TIME
+	var diff = e-d;  
+	
+	if (diff < 0) {
+		// IF WEDDING IN THE PAST
+		var diff = d-e;
+		var years = parseInt(diff/31557600000); // YEARS
+		var remain =  (diff-(years*31557600000));	
+		var days = parseInt(remain/86400000); // DAYS	
+  		remain =  (remain-(days*86400000));	
+  		var hours = parseInt(remain/3600000); // HOURS
+  		remain = remain-(hours*3600000); 
+  		var mins = Math.round(remain/60000);
+  	
+		var str = '';
+		if (years > 0) {
+			str += years+' year';
+			if (years != 1) {
+				str+= 's';
+			}
+		}
+		if (days > 0) {
+    			str += ' '+days+' day';
+      		if (days != 1) {
+      			str += 's';
+      		}
+		}
+		if (hours > 0) {
+  		    str += ' '+hours+ ' hour';
+      		if (hours != 1) {
+      			str += 's';
+      		}
+		}
+		str += ' '+mins+' minute';
+		if (mins != 1) {
+			str += 's';
+		}
+		
+		$('#countdown-intro').html('We have been married for');
+		$('#countdown').html(str);
+	}
+	else {	
+		// IF IN THE FUTURE		
+		var days = parseInt(diff/86400000); // DAYS	
+  	var remain =  (diff-(days*86400000));	
+  	var hours = parseInt(remain/3600000);
+  	remain = diff-( (days*86400000)+(hours*3600000) );
+  	var mins = Math.round(remain/60000);
+  	
+		var str = '';
+		if (days > 0) {
+    	str += days+' day';
+  		if (days != 1) {
+  			str += 's';
+  		}
+		}
+		if (hours > 0) {
+  		str += ' '+hours+ ' hour';
+  		if (hours != 1) {
+  			str += 's';
+  		}
+		}
+		str += ' '+mins+' minute';
+		if (mins != 1) {
+			str += 's';
+		}
+		
+  	$('#countdown').html(str);
+	}
+}
+
+$(document).ready(function(){
+  
+  update_countdown();
+  
+  setInterval(function () {
+    update_countdown();
+  }, 30000);  
+})
+</script>
+</div>
+</div>
+<div class="image-container2">
+  <div class="image2">
+    <img src="./assests/Images/david and emma/ED2.jpeg" alt="Redwood forest with sunlight filtering through"></div>
+  <div class="image2">
+    <img src="./assests/Images/david and emma/ed4.jpeg" alt="Image 2"></div>
+  <div class="image2">
+    <img src="./assests/Images/david and emma/ed9.jpg" alt="Image 3"></div>
+  <div class="image2">
+    <img src="./assests/Images/david and emma/ed13.jpeg" alt="Image 4"></div>
+  <div class="image2">
+    <img src="./assests/Images/david and emma/Ed6.jpeg" alt="Image 5"></div>
+  <div class="image2">
+    <img src="./assests/Images/david and emma/ED3.jpeg" alt="Image 6"></div>
+</div>
+  </div>
+  </div>
+</div>
+</body>

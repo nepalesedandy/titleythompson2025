@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Emma and David wedding 2.0</title>
+<style>
+
+@font-face {
+  font-family: 'my-everything';
+  src: url('./my-everything/My\ Everything\ TRIAL.ttf') format('woff');
+}
+@font-face {
+  font-family: 'legrand';
+  src: url('') format('truetype');
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'legrand', 'regluar' ;
+  background-color: #FFFAF1;
+  padding-top: 60px; /* Adjust this value based on your header's height */
+}
+.header-container {
+    display: flex;
+    align-items: center; /* Ensure items are vertically centered */
+    justify-content: space-between; /* Space between image and menu */
+    width: 100%;
+    background-color: #FFFAF1;
+    padding: 5px !important; /* Adjust as necessary */
+    box-sizing: border-box;
+    border-bottom: 1px solid #023020;
+}
+.header-image-container {
+    /* Removed absolute positioning to keep in document flow */
+    display: flex;
+    justify-content: flex-start; /* Align image to the left */
+    align-items: center; /* Center image vertically */
+    padding: 0; /* Adjust as necessary */
+}
+.header-image-container img {
+    max-width: 150px; /* or 200px for larger screens, adjust as necessary */
+    height: auto;
+}
+.header-container:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+/* Adjust padding on the body to prevent overlap */
+body {
+    padding-top: 30px !important; /* Adjust based on the header's height */
+}
+
+/* Ensure .header-text-content and .hamburger-menu are correctly aligned */
+.header-text-content {
+    display: flex;
+    justify-content: flex-end; /* Align menu items to the right */
+    align-items: center; /* Center items vertically */
+    width: 100%;
+}
+.hamburger-menu {
+    display: none; /* Initially hidden, shown on smaller screens */
+} 
+@media (max-width: 768px) {
+    .hamburger-menu {
+        display: block; /* Show on smaller screens */
+    }
+    .menu-items {
+        display: none; /* Hide menu items, show hamburger menu */
+}
+    }
+}
+/* For larger screens, adjust the size of the header image */
+@media (min-width: 1024px) {
+    .header-image-container img {
+        max-width: 200px; /* Larger image on larger screens */
+    }
+
+    /* Adjust padding-top of body based on the new header height */
+    body {
+        padding-top: 210px; /* Adjust based on actual header height */
+    }
+}
+.hamburger-menu {
+    display: none; /* Hidden by default */
+    font-size: 40px; /* Icon size */
+    cursor: pointer; /* Indicates it's clickable */
+}
+@media (max-width: 768px) {
+    .menu-items {
+        display: none; /* Hide menu items on smaller screens */
+    }
+    .hamburger-menu {
+        display: block; /* Show hamburger icon on smaller screens */
+    }
+}
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #FFFAF1;;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+  font-family: 'FontAwesome', woff;
+  font-size: 25px;
+  text-decoration: none; /* Removes underline */
+  cursor: default; /* Changes cursor to default instead of pointer */
+  color: #567033; /* Change this to match your regular text color */
+  pointer-events: none; /* Prevents clicking on the link */
+}
+/* Modal Link Styling */
+#myModal .modal-content a {
+    color: #333; /* Dark gray color */
+    text-decoration: none; /* Removes underline */
+    cursor: pointer; /* Ensures cursor changes to pointer to indicate link */
+}
+
+#myModal .modal-content a:hover, 
+#myModal .modal-content a:focus {
+    color: #444; /* Slightly darker color on hover/focus for feedback */
+    text-decoration: underline; /* Optional: Adds underline on hover/focus for visual feedback */
+}
+
+/* The Close Button */
+.close {
+  color: #567033;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Targeting the container of the menu */
+.top-menu,
+.menu-items {
+    border: none !important;
+}
+
+/* Targeting the list items and links directly */
+.top-menu li,
+.top-menu li a,
+.top-menu-link {
+    border: none !important;
+    border-bottom: none !important; /* Specifically removing bottom borders if they were set */
+}
+
+/* Ensuring no underlines or borders from link hover states */
+.top-menu li a:hover,
+.top-menu-link:hover {
+    border: none !important;
+    border-bottom: none !important;
+    text-decoration: none; /* Removing underline on hover to clean up appearance */
+}
+body {
+  background-color: ; /* Your site's background color */
+}
+.top-text .text-content { 
+  font-family: 'FontAwesome', woff;
+}
+.top-text{
+  background-color: #FFFAF1;
+  overflow: hidden;
+}
+.text-content, .menu-items {
+    text-align: center;
+}
+.top-text .text-content {
+  padding: 0px;
+  font-size: 30px;
+  color: #567033;
+}
+body {
+  position: relative; /* This makes the body the reference point for absolute positioning */
+}
+.resize-image {
+  width: 150px;  /* Adjust the width as desired */
+  height: auto;  /* Keeps the aspect ratio intact */
+}
+top-left-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.top-menu-link {
+color: #567033;
+  background-color: #FFFAF1;
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+}
+/* Reset some default browser styles */
+ul, li, a {
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+}
+
+/* Remove list styles */
+ul {
+    list-style: none;
+}
+
+/* Make list items and links into block-level elements */
+ul.top-menu li {
+    display: inline;
+    margin-right: 20px;
+}
+/* Style the links */
+ul.top-menu li {
+    text-decoration: none;
+    color: #023020
+    padding: 10px;
+}
+.top-menu li {
+  color: #567033;
+  text-align: right;
+  text-orientation: horizontal;
+  padding: 20px 30px;
+  text-decoration: none;
+  font-size: 25px;
+  display: inline-block;
+}
+}
+ul.top-menu, ul.top-menu li, ul.top-menu li a, ul.top-menu-link{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+}
+ul.top-menu-link{
+    color: #567033;
+    background-color: #FFFAF1; 
+    outline: none;
+}
+.top-menu li a:hover {
+  background-color: #FFFAF1;
+  color: black;
+}
+.top-menu-link:hover {
+  background-color: #567033;
+  color: green;
+}
+.top-menu {
+  background-color: #FFFAF1;
+}
+.content {
+  margin-top: 20px;
+  padding: 20px;
+}
+  .img {
+  background-color: #FFFAF1;
+  -ms-flex-item-align: center;
+  orientation: horizontal;
+  padding: 20px 30px;
+  }
+.home_text {
+font-size: 25px;
+  color: #567033;
+  text-align: center;
+  }
+ 
+/* Modal Link Styling */
+#myModal .modal-content a {
+    color: #567033; /* Matches the primary text color used elsewhere */
+    text-decoration: underline; /* Removes underline */
+    cursor: pointer; /* Retains the pointer to indicate clickability */
+}
+
+#myModal .modal-content a:hover, 
+#myModal .modal-content a:focus {
+    color: #6c757d; /* Darker shade for hover/focus states */
+    text-decoration: underline; /* Optionally add underline on hover/focus for clarity */
+}
+.banner-block-container {
+	background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+	padding: 120px 0 100px;
+}
+
+.banner-block-container:before {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+.banner-block-container.overlay-white:before {
+	background-color: rgba(255,255,255,0.8);
+}
+
+.banner-block-container.overlay-blue:before {
+	background-color: rgba(5,36,64,0.8);
+}
+
+.overlay-blue .banner-block-wrap {
+	color: #fff;
+}
+
+.banner-block-wrap h2 {
+	position: relative;
+}
+
+.align-left .banner-block-wrap {
+	max-width: 430px;
+    width: 100%;
+	float: left;
+	text-align: right;
+}
+
+.align-right .banner-block-wrap {
+	max-width: 500px;
+    width: 100%;
+	float: right;
+	text-align: left;
+}
+
+.align-center .banner-block-wrap {
+	max-width: 820px;
+    width: 100%;
+    margin: 0 auto;
+	text-align: center;
+}
+
+.banner-block-content-container {
+	position: relative;
+	font-family: 'Source Sans Pro', sans-serif;
+	letter-spacing: 0.08em;
+    overflow: hidden;
+}
+
+.align-left .banner-block-content-container,
+.align-right .banner-block-content-container {
+	font-size: 14px;
+	font-size: 1.4rem;
+	font-weight: 400;
+}
+
+.align-center .banner-block-content-container {
+    font-size: 18px;
+    font-size: 1.8rem;
+    line-height: 1.3em;
+    font-style: italic;
+    font-weight: 400;
+}
+
+.banner-button-container {
+	float: left;
+    width: 100%;
+	margin-top: 40px;
+}
+
+.banner-button-container .button-wrap {
+	display: flex;
+    align-items: center;
+}
+
+.align-center .button-wrap {
+	justify-content: center;
+}
+
+.align-left .button-wrap {
+	justify-content: flex-end;
+}
+
+.align-right .button-wrap {
+	justify-content: flex-start;
+}
+/* Image and text block */
+
+.image-text-block-container {
+	padding: 0;
+}
+
+.image-text-block-container a {
+
+}
+
+.image-text-block-container a:hover,
+.image-text-block-container a:focus {
+	color: #414143;
+}
+
+.image-text-item-container {
+	padding-top: 80px;
+}
+
+.image-text-item-wrap {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.add-border-yes .image-text-item-wrap::after {
+    content: '';
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    bottom: 15px;
+    left: 15px;
+    border: 1px solid #ddd;
+	z-index: 10;
+}
+
+.image-text-block-image {
+	width: 55%;
+}
+
+.flexslider.slider-2 .slides {
+    display: flex;
+	height: 100%;
+}
+
+.image-text-content-container {
+	width: 45%;
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+	padding: 40px;
+	z-index: 999;
+}
+
+.image-text-content-container h2 {
+	font-style: normal;
+}
+
+.image-left .image-text-block-image {
+
+}
+
+.image-right .image-text-block-image {
+	order: 1;
+}
+
+.image-right .image-text-content-container {
+	text-align: right;
+}
+
+.image-right .image-text-content-container {
+	align-items: flex-end;
+}
+.has-object-fit > img {
+	object-fit: cover;
+	height: 100%;
+	width: 100%;
+}
+.wide-fixed-section-wrap {
+	max-width: 1240px;
+	width: 100%;
+	margin: 0 auto;
+	padding: 0 20px;
+	overflow: hidden;
+}
+.full-section-container {
+	float: left;
+    width: 100%;
+	position: relative;
+}
+.full-section-wrap {
+	width: 100%;
+	float: left;
+}
+.flex-control-paging li a.flex-active {
+	background: rgba(245,243,236,0.5);
+	cursor: default;
+}
+.flex-control-nav {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    z-index: 100;
+    bottom: 30px;
+    line-height: 1;
+}
+
+.flex-control-nav li {
+	display: inline;
+	display: inline-block;
+	margin: 0 0 0 7px;
+	zoom: 1;
+}
+
+.flex-control-nav li:first-child {
+	margin: 0;
+}
+
+.flex-control-nav li a {
+	width: 5px;
+    height: 5px;
+    display: block;
+    background: rgba(245,243,236,1);
+    cursor: pointer;
+    text-indent: -9999px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+}
+
+.flex-control-nav li a:hover {
+	background: rgba(245,243,236,0.5);
+}
+
+.flex-control-paging li a.flex-active {
+	background: rgba(245,243,236,0.5);
+	cursor: default;
+}
+.equal-height-flex-col {
+	flex-grow: 1;
+    flex-basis: 0;
+}
+
+/* FlexSlider Default Theme
+*********************************/
+.flexslider {
+	float: left;
+    width: 100%;
+	position: relative;
+	zoom: 1;
+}
+
+.flexslider .slides {
+	zoom: 1;
+	margin: 0 auto;
+}
+
+.flexslider .slides > li {
+	position: relative;
+}
+
+/* Suggested container for "Slide" animation setups. Can replace this with your own, if you wish */
+.flex-container {
+	zoom: 1;
+	position: relative;
+}
+
+/* Caption style */
+/* IE rgba() hack */
+.flex-caption {
+	background:none;
+	-ms-filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#4C000000,endColorstr=#4C000000);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#4C000000,endColorstr=#4C000000);
+	zoom: 1;
+}
+
+.flex-caption {
+	background: rgba(0,0,0,.3);
+	bottom: 0;
+	color: #fff;
+	font-size: 14px;
+	left: 0;
+	line-height: 18px;
+	padding: 2%;
+	position: absolute;
+	text-shadow: 0 -1px 0 rgba(0,0,0,.3);
+	width: 96%;
+}
+.page-template-page_standard .content {
+	padding: 60px 0;
+}
+/* Content Block */
+
+.content-blocks-container {
+	padding-top: 80px;
+}
+
+.content-blocks-container .fixed-section-wrap {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.content-block-container {
+	flex-grow: 1;
+    flex-basis: 0;
+}
+
+.content-block-heading {
+	font-style: normal;
+}
+
+/* store locator */
+
+.slp_search_form {
+	margin-bottom: 10px;
+}
+
+.slp_search_form .search_box .search_item input[type="text"].label_empty {
+    flex-basis: 100%;
+}
+
+.store_locator_plus .slp_search_form .search_box .search_item {
+    min-width: auto;
+    margin-bottom: 0;
+    width: 40%;
+}
+
+.slp_search_form .search_box .search_item #addy_in_radius label {
+    flex-basis: 0!important;
+	margin-right: 0!important;
+}
+
+.slp_search_form .search_box .search_item #addy_in_radius select {
+	flex-basis: 100%!important;
+	padding: 10px!important;
+	margin: 0 10px!important;
+    height: 40px;
+}
+
+.slp_search_form .search_box .search_item .slp_ui_button {
+    margin: 10px 0;
+    padding: 15px 25px;
+}
+
+.slp_search_form .search_box .search_item .slp_ui_button {
+    margin: 0!important;
+    padding: 0!important;
+    width: 100%;
+    height: 40px;
+}
+
+.slp_search_form .search_box .search_item #radius_in_submit {
+    height: 40px;
+	margin: 0;
+}
+
+.store_locator_plus #map {
+	filter: gray;
+    -webkit-filter: grayscale(1);
+    -webkit-filter: grayscale(100%);
+    filter: url(resources.svg#desaturate);
+    filter: grayscale(100%);
+}
+
+.slp_search_container .search_item #radius_in_submit {
+	background-color: #414143;
+}
+
+.slp_search_container .search_item #radius_in_submit input[type="submit"] {
+	background-color: #414143;
+	background: url(/wp-content/themes/theangelinn/images/search.png) no-repeat scroll 20px 20px;
+	display: inline-block;
+	vertical-align: middle;
+	background-position: center;
+}
+
+.slp_search_container .search_item #radius_in_submit input[type="submit"]:hover,
+.slp_search_container .search_item #radius_in_submit input[type="submit"]:focus {
+	color: #414143;
+}
+.page-template-page_standard .content {
+	padding: 60px 0;
+}
+
+.page-template-page_standard {
+}
+
+
+/* FlexSlider Default Theme
+*********************************/
+.flexslider {
+	float: left;
+    width: 100%;
+	position: relative;
+	zoom: 1;
+}
+
+.flexslider .slides {
+	zoom: 1;
+	margin: 0 auto;
+}
+
+.flexslider .slides > li {
+	position: relative;
+}
+
+/* Suggested container for "Slide" animation setups. Can replace this with your own, if you wish */
+.flex-container {
+	zoom: 1;
+	position: relative;
+}
+@media only screen and (max-width: 768px) {
+
+.site-header.stickHeader {
+  height: auto;
+}
+
+.space-block-20 {
+  padding-bottom: 10px
+}
+
+.space-block-30 {
+  padding-bottom: 15px
+}
+
+.space-block-40 {
+  padding-bottom: 20px
+}
+
+.space-block-50 {
+  padding-bottom: 25px
+}
+
+.space-block-60 {
+  padding-bottom: 30px
+}
+
+.space-block-80 {
+  padding-bottom: 40px
+}
+
+.space-block-100 {
+  padding-bottom: 50px
+}
+
+.image-text-grid-image {
+  width: 100%;
+}
+
+.image-left .image-text-grid-content-wrap {
+  padding: 40px 20px;
+}
+
+.image-text-grid-item-container.image-right .image-text-grid-content-wrap {
+  align-items: flex-start;
+  padding: 40px 20px;
+}
+
+.image-right .image-text-grid-image {
+  order: 0;
+}
+
+.image-right .image-text-content-container {
+  text-align: left;
+  align-items: flex-start;
+}
+
+.image-right .image-text-content-container .button-wrap {
+  float: left;
+}
+
+.image-text-grid-content-container  {
+  width: 100%;
+}
+
+.image-text-grid-content-wrap {
+  max-width: 100%;
+  width: 100%;
+  float: left;
+  padding: 40px;
+}
+
+.image-text-item-container {
+  display: block;
+}
+
+.image-right .image-text-grid-content-wrap {
+  float: left;
+  text-align: left;
+}
+
+.image-text-block-image {
+  width: 100%;
+}
+
+.image-text-content-container {
+  width: 100%;
+  padding: 40px;
+}
+
+.image-right .image-text-block-image {
+  order: 0;
+}
+
+.image-text-grid-item-container.image-right .button-container {
+  float: left;
+}
+
+}
+
+@media only screen and (max-width: 680px) {
+
+.site-header > .wrap {
+  flex-direction: column;
+}
+
+.title-area {
+  max-width: 250px;
+  padding: 10px;
+}
+
+.header-widget-area {
+  position: relative;
+  display: flex;
+  align-items: center;
+  top: 0;
+  order: 0;
+  margin-bottom: 5px;
+}
+
+.booking-button-container {
+  top: 188px;
+}
+
+.booking-button-wrapper {
+  align-items: center;
+}
+
+.booking-button-block {
+  display: flex;
+}
+
+.booking-button-block .button-wrap {
+  padding: 5px;
+}
+
+#slider-1 .slides li {
+  height: 500px;
+}
+
+}
+
+@media only screen and (max-width: 620px) {
+
+.image-text-block-image {
+  padding-right: 20px;
+}
+
+.form-block-content {
+  width: 100%;
+  order: 1;
+}
+
+.form-block-right-content {
+  width: 100%;
+  padding-bottom: 20px;
+}
+
+.form-block-right-wrap {
+  border-left: none;
+  padding-left: 0;
+  margin-left: 0;
+}
+
+}
+
+@media only screen and (max-width: 600px) {
+
+.site-header.stickHeader {
+  top: 0;
+  height: 30px;
+}
+
+.site-header.stickHeader .title-area,
+.site-header.stickHeader .header-widget-area {
+  display: none;
+}
+
+.site-header.stickHeader .menu-toggle {
+  padding: 0;
+}
+
+.stickHeader .genesis-responsive-menu {
+  position: absolute;
+  top: 30px;
+}
+
+.booking-button-block {
+  flex-direction: column;
+}
+
+}
+
+@media only screen and (max-width: 580px) {
+
+.image-text-item-container {
+  padding-top: 40px;
+}
+
+.image-text-block-image {
+  width: 100%;
+  width: 100%;
+  padding: 0;
+  text-align: center;
+}
+
+.image-text-content-container {
+  width: 100%;
+}
+
+.social-content-block {
+  flex-direction: column;
+}
+
+.button-block-container {
+  padding: 40px 0;
+}
+
+.social-heading-block-container h2,
+.social-heading-icons-container {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.footer-form .gform_body {
+  float: left;
+  width: 100%;
+}
+
+.footer-form .gform_footer {
+  float: left;
+  margin-top: 20px;
+}
+
+.footer-social-block-container:before {
+  top: -23px;
+}
+
+.footer-social-block-container {
+  padding: 20px 0 40px;
+}
+
+.footer-widgets #menu-footer-menu .menu-item {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+}
+
+@media only screen and (max-width: 480px) {
+
+.site-inner {
+  padding: 20px 0 20px;
+}
+
+h1 {
+  font-size: 30px;
+  font-size: 3.0rem;
+}
+
+.gform_body li.gfield label {
+  width: 100%;
+}
+
+.gform_body li.gfield .ginput_container {
+  width: 100%;
+}
+
+.gform_footer {
+  left: 0;
+}
+
+.social-block-content-wrapper {
+  justify-content: center;
+}
+
+.overlay {
+  position: absolute; /* Position the overlay within the parent container */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #FFFAF1(0, 0, 0, 0.5); /* Black background with 50% opacity */
+  /* Alternatively, use: background: rgba(255, 255, 255, 0.5); for a white overlay */
+  z-index: 2; /* Ensure it sits above other content */
+}
+}
+
+@media only screen and (max-width: 360px) {
+
+.large-button {
+  max-width: 180px;
+}
+
+.large-button-wrap {
+  display: block;
+  padding: 0;
+}
+
+.twothirds-width-input {
+  width: 100%;
+}
+
+.third-width-input {
+  width: 100%;
+}
+
+.half-width-input {
+  width: 100%;
+}
+
+.footer-form li.gfield.third-width-input {
+  padding:0;
+  margin-top: 20px;
+}
+/* Ensure .image-text-block-container acts as a flex container */
+.image-text-block-container {
+  display: flex;
+  align-items: center; /* Align items vertically in the center */
+  justify-content: space-between; /* Space between image and text content */
+  padding: 20px; /* Add some padding */
+}
+
+/* Adjust the image container */
+.image-text-block-image {
+  flex-basis: 50%; /* Adjust based on your preference */
+}
+
+/* Adjust the text content container */
+.image-text-content-container {
+  flex-basis: 50%; /* Adjust based on your preference */
+  padding: 20px; /* Add some padding for spacing */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .image-text-block-container {
+    flex-direction: column; /* Stack the items vertically on smaller screens */
+  }
+}
+.expandable-block-container {
+	padding: 80px 0;
+}
+
+.accordion-detail-content {
+	padding-top: 80px;
+}
+
+.expandable-block-container .gform_wrapper {
+	max-width: 590px;
+	width: 100%;
+}
+
+/* Image Grid Row */
+
+.image-grid-row-container {
+	background-color: #414143;
+}
+
+.image-grid-row-wrapper {
+	display: flex;
+}
+
+.image-with-content-image-container {
+	height: 100%;
+}
+
+.image-grid-item-container {
+	width: 25%;
+	padding: 2px;
+}
+
+/* Image and text block */
+
+.image-text-block-container {
+	padding: 0;
+}
+
+.image-text-block-container a {
+
+}
+
+.image-text-block-container a:hover,
+.image-text-block-container a:focus {
+	color: #414143;
+}
+
+.image-text-item-container {
+	padding-top: 80px;
+}
+
+.image-text-item-wrap {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.add-border-yes .image-text-item-wrap::after {
+    content: '';
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    bottom: 15px;
+    left: 15px;
+    border: 1px solid #ddd;
+	z-index: 10;
+}
+
+.image-text-block-image {
+	width: 55%;
+}
+
+.flexslider.slider-2 .slides {
+    display: flex;
+	height: 100%;
+}
+
+.image-text-content-container {
+	width: 45%;
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+	padding: 40px;
+	z-index: 999;
+}
+
+.image-text-content-container h2 {
+	font-style: normal;
+}
+
+.image-left .image-text-block-image {
+
+}
+
+.image-right .image-text-block-image {
+	order: 1;
+}
+
+.image-right .image-text-content-container {
+	text-align: right;
+}
+
+.image-right .image-text-content-container {
+	align-items: flex-end;
+}
+
+/* Image and text Grid */
+
+.image-text-grid-container {
+	padding: 0;
+}
+
+.image-text-grid-item-container {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.image-text-grid-image {
+	width: 50%;
+}
+
+.image-text-grid-content-container {
+	width: 50%;
+	display: flex;
+}
+
+.image-left .image-text-grid-content-container {
+	justify-content: flex-start;
+}
+
+.image-right .image-text-grid-content-container {
+	justify-content: flex-end;
+}
+
+
+.image-text-grid-content-wrap {
+	max-width: 600px;
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.image-left .image-text-grid-content-wrap {
+	padding: 80px 20px 80px 80px;
+}
+
+.image-right .image-text-grid-content-wrap {
+	padding: 80px 80px 80px 20px;
+}
+
+.image-text-grid-content-wrap h2 {
+	font-style: normal;
+}
+
+.image-right .image-text-grid-image {
+	order: 1;
+}
+
+.image-right .image-text-grid-content-wrap {
+	float: right;
+	text-align: right;
+}
+
+.image-text-grid-item-container.image-right .image-text-grid-content-wrap {
+	align-items: flex-end;
+}
+
+.image-text-block-button-container {
+	display: flex;
+    flex-wrap: wrap;
+}
+
+.image-text-block-button-container .button-wrap {
+	padding: 10px 0;
+}
+
+.image-text-block-button-container .button-wrap.button-no-2 {
+	margin-left: 20px;
+}
+.heading-block-content .reg-text ul {
+	margin-left: 40px;
+    margin-bottom: 20px;
+}
+
+.heading-block-content .reg-text li {
+	list-style-type: disc;
+    margin-left: 20px;
+}
+
+.border-box {
+	border: 1px solid #414143;
+	padding: 40px;
+}
+
+.background-blue {
+	background-color: #00c4b3;
+}
+
+.cols-1 {
+	width: 100%;
+	float: left;
+}
+
+.cols-2 {
+	width: 50%;
+	float: left;
+}
+
+.cols-3 {
+	width: 33.33%;
+	float: left;
+}
+
+.cols-4 {
+	width: 25%;
+	float: left;
+}
+
+.full-section-container {
+	float: left;
+    width: 100%;
+	position: relative;
+}
+
+.full-width-imageblock-container img {
+	display: block;
+	width: 100%;
+}
+
+.fixed-section-wrap {
+	max-width: 860px;
+	width: 100%;
+	margin: 0 auto;
+	padding: 0 20px;
+	overflow: hidden;
+}
+
+.wide-fixed-section-wrap {
+	max-width: 1240px;
+	width: 100%;
+	margin: 0 auto;
+	padding: 0 20px;
+	overflow: hidden;
+}
+
+.full-section-wrap {
+	width: 100%;
+	float: left;
+}
+
+.image-fixed-section-wrap {
+	max-width: 820px;
+	width: 100%;
+	margin: 0 auto;
+	overflow: hidden;
+}
+
+.has-object-fit > img {
+	object-fit: cover;
+	height: 100%;
+	width: 100%;
+}
+
+/* ie and edge fallback for object-fit*/
+.compat-object-fit {
+   background-size: cover;
+   background-position: center center;
+}
+
+.compat-object-fit img {
+    opacity: 0;
+}
+
+.no-padding {
+	padding: 0;
+}
+
+.space-block {
+    width: 100%;
+    float: left;
+}
+
+.space-block-20 {
+	padding-bottom: 20px
+}
+
+.space-block-30 {
+	padding-bottom: 30px
+}
+
+.space-block-40 {
+	padding-bottom: 40px
+}
+
+.space-block-50 {
+	padding-bottom: 50px
+}
+
+.space-block-60 {
+	padding-bottom: 60px
+}
+
+.space-block-80 {
+	padding-bottom: 80px
+}
+
+.space-block-100 {
+	padding-bottom: 100px
+}
+
+.equal-height-flex-col {
+	flex-grow: 1;
+    flex-basis: 0;
+}
+}
+
+</style></head>
+<body>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+      <div class="header-container">
+        <div class="header-image-container">
+            <img src="./Images/logo/ed-high-resolution-logo.png"  
+            alt="a figure of a couple in a wedding dress and suit, with the letters E and D beneath, below this the thrase Wedding 2025 is shown"
+             id="top-left-image" class="color-overlay">
+        </div>
+        <div class="header-text-content">
+          <div class="hamburger-menu">&#9776;</div> 
+            <div class="top-menu">
+              <ul>
+                <div class="menu-items">
+                  <li><a href="#" class="top-menu-link">Home</a></li>
+                  <li><a href="#" class="top-menu-link">The Day</a></li>
+                  <li><a href="#" class="top-menu-link">Getting There</a></li>
+                  <li><a href="#" class="top-menu-link">Contacts</a></li>
+                  <li><a href="#" class="top-menu-link">RSVP</a></li>
+                  </div>
+                  </ul>
+              </div>
+        </div>
+    </div>
+    </div>
+  </div>
+  <div>
+  </div>
+  <script>
+    $(document).ready(function(){
+        $(".hamburger-menu").click(function(){
+            $(".menu-items").toggle(); // Toggles visibility of the menu
+        });
+    });
+    </script>
+<h></h>
+  </div>
+</div>
+<div class="image-text-block-container full-section-container"></div>
+<div class="wide-fixed-section-wrap image-text-block-wrapper"></div>
+<div class="image-text-item-container image-right add-border-yes"></div>
+<div class="image-text-item-wrap"></div>
+<div class="image-text-block-image has-object-fit flexslider slider-2"></div>
+<ul class="slides">
+<li class="has-object-fit" style="width: 100%; float: left; margin-right: -100%; position: relative; opacity: 0; display: block; z-index: 1;" data-thumb-alt="">
+  <img src="https://angelinnpetworth.co.uk/app/uploads/2023/01/9D684608-7EDC-415D-9365-6B077C2E4CFD.jpeg" alt="https://angelinnpetworth.co.uk/app/uploads/2023/01/9D684608-7EDC-415D-9365-6B077C2E4CFD.jpeg" "="" draggable="false">
+</li>
+<li class="has-object-fit" style="width: 100%; float: left; margin-right: -100%; position: relative; opacity: 0; display: block; z-index: 1;" data-thumb-alt="">
+  <img src="https://angelinnpetworth.co.uk/app/uploads/2020/06/Ryde_house_143_RT.jpg" alt="https://angelinnpetworth.co.uk/app/uploads/2020/06/Ryde_house_143_RT.jpg" "="" draggable="false">
+</li>
+<li class="has-object-fit flex-active-slide" style="width: 100%; float: left; margin-right: -100%; position: relative; opacity: 1; display: block; z-index: 2;" data-thumb-alt="">
+  <img src="https://angelinnpetworth.co.uk/app/uploads/2023/01/218_Angel.jpg" alt="https://angelinnpetworth.co.uk/app/uploads/2023/01/218_Angel.jpg" "="" draggable="false">
+</li>
+</ul>
+<ol class="flex-control-nav flex-control-paging"><li><a href="#" class="">1</a></li><li><a href="#" class="">2</a></li><li><a href="#" class="flex-active">3</a></li></ol>
+<li><a href="#" class="">1</a></li>
+<a href="#" class="">1</a>
+<li><a href="#" class="">1</a></li>
+<li><a href="#" class="">2</a></li>
+<a href="#" class="">2</a>
+<li><a href="#" class="">2</a></li>
+<li><a href="#" class="flex-active">3</a></li>
+<a href="#" class="flex-active">3</a>
+<li><a href="#" class="flex-active">3</a></li>
+<ol class="flex-control-nav flex-control-paging"><li><a href="#" class="">1</a></li><li><a href="#" class="">2</a></li><li><a href="#" class="flex-active">3</a></li></ol>
+<ul class="flex-direction-nav"><li class="flex-nav-prev"><a class="flex-prev" href="#">Previous</a></li><li class="flex-nav-next"><a class="flex-next" href="#">Next</a></li></ul>
+<li class="flex-nav-prev"><a class="flex-prev" href="#">Previous</a></li>
+<a class="flex-prev" href="#">Previous</a>
+<li class="flex-nav-prev"><a class="flex-prev" href="#">Previous</a></li>
+<li class="flex-nav-next"><a class="flex-next" href="#">Next</a></li>
+<a class="flex-next" href="#">Next</a>
+<li class="flex-nav-next"><a class="flex-next" href="#">Next</a></li>
+<ul class="flex-direction-nav"><li class="flex-nav-prev"><a class="flex-prev" href="#">Previous</a></li><li class="flex-nav-next"><a class="flex-next" href="#">Next</a></li></ul>
+<div class="image-text-block-image has-object-fit flexslider slider-2">
+											<ul class="slides"><li class="has-object-fit" style="width: 100%; float: left; margin-right: -100%; position: relative; opacity: 0; display: block; z-index: 1;" data-thumb-alt="">
+														<img src="https://angelinnpetworth.co.uk/app/uploads/2023/01/9D684608-7EDC-415D-9365-6B077C2E4CFD.jpeg" alt="https://angelinnpetworth.co.uk/app/uploads/2023/01/9D684608-7EDC-415D-9365-6B077C2E4CFD.jpeg" "="" draggable="false">
+													</li><li class="has-object-fit" style="width: 100%; float: left; margin-right: -100%; position: relative; opacity: 0; display: block; z-index: 1;" data-thumb-alt="">
+														<img src="https://angelinnpetworth.co.uk/app/uploads/2020/06/Ryde_house_143_RT.jpg" alt="https://angelinnpetworth.co.uk/app/uploads/2020/06/Ryde_house_143_RT.jpg" "="" draggable="false">
+													</li><li class="has-object-fit flex-active-slide" style="width: 100%; float: left; margin-right: -100%; position: relative; opacity: 1; display: block; z-index: 2;" data-thumb-alt="">
+														<img src="https://angelinnpetworth.co.uk/app/uploads/2023/01/218_Angel.jpg" alt="https://angelinnpetworth.co.uk/app/uploads/2023/01/218_Angel.jpg" "="" draggable="false">
+													</li></ul><ol class="flex-control-nav flex-control-paging"><li><a href="#" class="">1</a></li><li><a href="#" class="">2</a></li><li><a href="#" class="flex-active">3</a></li></ol><ul class="flex-direction-nav"><li class="flex-nav-prev"><a class="flex-prev" href="#">Previous</a></li><li class="flex-nav-next"><a class="flex-next" href="#">Next</a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="image-text-content-container equal-height-flex-col"><h2 class="image-text-block-title">PERFECT FOR FAMILIES AND GROUP STAYS</h2><div class="image-text-block-text"><p>Three double bedrooms can comfortably accommodate parties of up to six. Plus, the large living room, dining room and kitchen offer space to host a dinner party, hold a meeting or celebrate with friends.</p>
+                        <p>Ryde House has a beautiful walled courtyard garden perfect for alfresco dining.</p>
+                        <p>Ryde House is also popular for wedding parties, with its proximity to the three churches in town, off street parking, and lovely garden.</p>
+                        </div></div>
+                        <h2 class="image-text-block-title">PERFECT FOR FAMILIES AND GROUP STAYS</h2>
+                        <div class="image-text-block-text"><p>Three double bedrooms can comfortably accommodate parties of up to six. Plus, the large living room, dining room and kitchen offer space to host a dinner party, hold a meeting or celebrate with friends.</p>
+                        <p>Ryde House has a beautiful walled courtyard garden perfect for alfresco dining.</p>
+                        <p>Ryde House is also popular for wedding parties, with its proximity to the three churches in town, off street parking, and lovely garden.</p>
+                        </div>
+                        <p>Three double bedrooms can comfortably accommodate parties of up to six. Plus, the large living room, dining room and kitchen offer space to host a dinner party, hold a meeting or celebrate with friends.</p>
+                        Three double bedrooms can comfortably accommodate parties of up to six. Plus, the large living room, dining room and kitchen offer space to host a dinner party, hold a meeting or celebrate with friends.
+                        <p>Three double bedrooms can comfortably accommodate parties of up to six. Plus, the large living room, dining room and kitchen offer space to host a dinner party, hold a meeting or celebrate with friends.</p>
+                        <p>Ryde House has a beautiful walled courtyard garden perfect for alfresco dining.</p>
+                        <p>Ryde House is also popular for wedding parties, with its proximity to the three churches in town, off street parking, and lovely garden.</p>
+                        Ryde House is also popular for wedding parties, with its proximity to the three churches in town, off street parking, and lovely garden.
+                        <p>Ryde House is also popular for wedding parties, with its proximity to the three churches in town, off street parking, and lovely garden.</p>
+                        <div class="image-text-block-text"><p>Three double bedrooms can comfortably accommodate parties of up to six. Plus, the large living room, dining room and kitchen offer space to host a dinner party, hold a meeting or celebrate with friends.</p>
+                        <p>Ryde House has a beautiful walled courtyard garden perfect for alfresco dining.</p>
+                        <p>Ryde House is also popular for wedding parties, with its proximity to the three churches in town, off street parking, and lovely garden.</p>
+                        </div>
+                        <div class="image-text-content-container equal-height-flex-col"><h2 class="image-text-block-title">PERFECT FOR FAMILIES AND GROUP STAYS</h2><div class="image-text-block-text"><p>Three double bedrooms can comfortably accommodate parties of up to six. Plus, the large living room, dining room and kitchen offer space to host a dinner party, hold a meeting or celebrate with friends.</p>
+                        <p>Ryde House has a beautiful walled courtyard garden perfect for alfresco dining.</p>
+                        <p>Ryde House is also popular for wedding parties, with its proximity to the three churches in town, off street parking, and lovely garden.</p>
+                        </div></div>
+                        <<pseudo>></<pseudo>>
+                        <div class="image-text-item-wrap"><div class="image-text-block-image has-object-fit flexslider slider-2">
+                                              <ul class="slides"><li class="has-object-fit" style="width: 100%; float: left; margin-right: -100%; position: relative; opacity: 0; display: block; z-index: 1;" data-thumb-alt="">
+                                                    <img src="https://angelinnpetworth.co.uk/app/uploads/2023/01/9D684608-7EDC-415D-9365-6B077C2E4CFD.jpeg" alt="https://angelinnpetworth.co.uk/app/uploads/2023/01/9D684608-7EDC-415D-9365-6B077C2E4CFD.jpeg" "="" draggable="false">
+                                                  </li><li class="has-object-fit flex-active-slide" style="width: 100%; float: left; margin-right: -100%; position: relative; opacity: 1; display: block; z-index: 2;" data-thumb-alt="">
+                                                    <img src="https://angelinnpetworth.co.uk/app/uploads/2020/06/Ryde_house_143_RT.jpg" alt="https://angelinnpetworth.co.uk/app/uploads/2020/06/Ryde_house_143_RT.jpg" "="" draggable="false">
+                                                  </li><li class="has-object-fit" style="width: 100%; float: left; margin-right: -100%; position: relative; opacity: 0; display: block; z-index: 1;" data-thumb-alt="">
+                                                    <img src="https://angelinnpetworth.co.uk/app/uploads/2023/01/218_Angel.jpg" alt="https://angelinnpetworth.co.uk/app/uploads/2023/01/218_Angel.jpg" "="" draggable="false">
+                                                  </li></ul><ol class="flex-control-nav flex-control-paging"><li><a href="#" class="">1</a></li><li><a href="#" class="flex-active">2</a></li><li><a href="#" class="">3</a></li></ol><ul class="flex-direction-nav"><li class="flex-nav-prev"><a class="flex-prev" href="#">Previous</a></li><li class="flex-nav-next"><a class="flex-next" href="#">Next</a></li></ul></div><div class="image-text-content-container equal-height-flex-col"><h2 class="image-text-block-title">PERFECT FOR FAMILIES AND GROUP STAYS</h2><div class="image-text-block-text"><p>Three double bedrooms can comfortably accommodate parties of up to six. Plus, the large living room, dining room and kitchen offer space to host a dinner party, hold a meeting or celebrate with friends.</p>
+                        <p>Ryde House has a beautiful walled courtyard garden perfect for alfresco dining.</p>
+                        <p>Ryde House is also popular for wedding parties, with its proximity to the three churches in town, off street parking, and lovely garden.</p>
+                        </div></div>
+                                        
+                                        </div>
+
+
+
+
+
+
+
+
+
+
+
+<div class="space-block space-block-60"></div>
+<div class="image-text-block-image has-object-fit flexslider slider-2">
+  <ul class="slides"><li class="has-object-fit" style="width: 100%; float: left; margin-right: -100%; position: relative; opacity: 0; display: block; z-index: 1;" data-thumb-alt="">
+        <img src="./Images/in the area/Petworth house.jpg" alt="" draggable="false">
+      </li><li class="has-object-fit" style="width: 100%; float: left; margin-right: -100%; position: relative; opacity: 0; display: block; z-index: 1;" data-thumb-alt="">
+        <img src="./Images/in the area/Petworth house.jpg" alt="" draggable="false">
+      </li><li class="has-object-fit flex-active-slide" style="width: 100%; float: left; margin-right: -100%; position: relative; opacity: 1; display: block; z-index: 2;" data-thumb-alt="">
+        <img src="./Images/in the area/Petworth house.jpg" alt="" draggable="false">
+      </li><li class="has-object-fit" style="width: 100%; float: left; margin-right: -100%; position: relative; opacity: 0; display: block; z-index: 1;" data-thumb-alt="">
+        <img src="" alt=""  draggable="false">
+        </li>
+        </ul>
+        </div>
+<div class="image-text-content-container equal-height-flex-col"><h2 class="image-text-block-title">IN THE AREA</h2><div class="image-text-block-text"><p>From award-winning delicatessens to local butchers and the finest wine merchants, everything you need for an exemplary dinner party is right on your doorstep.</p>
+<p>Petworth is also a perfect location for antique and gift shopping at local boutiques, visiting art galleries and country walks. Once you have explored Petworth House and the town’s other main attractions, there is so much more on our doorstep including the South Downs National Park, vineyards and some of the UK’s best known sporting attractions at Goodwood and Cowdray.</p>
+</div></div>
+<div class="banner-block-container full-section-container  align-center" style="background-image"> <img src="./Images/trees/Homepage image of trees.jpg"
+  <div class="wide-fixed-section-wrap">
+    <div class="banner-block-wrap">
+      <h2 class="banner-block-title"></h2>
+      <div class="banner-block-content-container"><p><span style="font-weight: 400;">Hi Emma Louise Titley</span></p>
+        </div></div>
+  </div>
+</div>
+  </div>
+</div>
+</body>
+
+
+
